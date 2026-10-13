@@ -26,3 +26,10 @@ This library implements the 1990 single-stage Metaphone, not Double Metaphone. D
 - Non-alphabetic characters are stripped before encoding, so `metaphone('123')` returns `''`.
 - The algorithm is English-only. Non-English input will produce codes, but they are meaningless.
 - Only the `metaphone` function is exported. There is no streaming API and no configuration object; the rules are fixed.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
